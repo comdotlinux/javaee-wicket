@@ -19,6 +19,12 @@ package com.linux;
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 import com.linux.home.HomePage;
+import org.apache.wicket.Application;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.resource.CssResourceReference;
+import org.apache.wicket.request.resource.JavaScriptResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.request.resource.UrlResourceReference;
 
 /**
  *
@@ -30,5 +36,28 @@ public class WicketApplication extends WebApplication{
     public Class<? extends Page> getHomePage() {
         return HomePage.class;
     }
+
+    @Override
+    protected void init() {
+        super.init();
+        ResourceReference cssBootstrapReference = new UrlResourceReference(Url.parse("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"));
+        ResourceReference cssBootstrapThemeReference = new UrlResourceReference(Url.parse("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"));
+        ResourceReference jsBootstrapReference = new UrlResourceReference(Url.parse("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"));
+
+        ResourceReference.Key cssBootstrapKey = new ResourceReference.Key(cssBootstrapReference);
+        ResourceReference.Key cssBootstrapThemeKey = new ResourceReference.Key(cssBootstrapThemeReference);
+        ResourceReference.Key jsBootstrapKey = new ResourceReference.Key(jsBootstrapReference);
+    
+        CssResourceReference bootstrapThemeCssResourceReference = new CssResourceReference(cssBootstrapThemeKey);
+        CssResourceReference bootstrapCssResourceReference = new CssResourceReference(cssBootstrapKey);
+        JavaScriptResourceReference bootstrapJsResourceReference = new JavaScriptResourceReference(jsBootstrapKey);
+
+        
+        getResourceBundles().addCssBundle(WicketApplication.class,"bootstrapCss", bootstrapCssResourceReference, bootstrapThemeCssResourceReference);
+        getResourceBundles().addJavaScriptBundle(WicketApplication.class,"bootstrapJs", bootstrapJsResourceReference);
+    }
+
+    
+    
     
 }

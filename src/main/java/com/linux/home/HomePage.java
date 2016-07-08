@@ -26,11 +26,9 @@ import org.apache.wicket.model.ResourceModel;
  */
 public class HomePage extends WebPage {
 
-    public HomePage() {
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
         add(new Label("helloWicket", new ResourceModel("helloWicket")));
     }
-
-    
-    
-    
 }
