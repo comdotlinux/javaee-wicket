@@ -16,35 +16,38 @@
  */
 package com.linux.home;
 
-import static com.linux.WicketApplication.JS_FOOTER_CONTAINER_NAME;
-import org.apache.wicket.ResourceBundles;
+import static com.linux.WicketApplication.CSS_BOOTSTRAP;
+import static com.linux.WicketApplication.CSS_BOOTSTRAP_THEME;
+import static com.linux.WicketApplication.JS_BOOTSTRAP;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.CssReferenceHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
-import org.apache.wicket.markup.head.filter.HeaderResponseContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.ResourceModel;
-import org.apache.wicket.request.resource.ResourceReference;
-import org.apache.wicket.resource.bundles.ResourceBundleReference;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.resource.UrlResourceReference;
 
 /**
  *
  * @author guru.a.kulkarni
  */
 public class HomePage extends WebPage {
+    
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
         add(new Label("helloWicket", new ResourceModel("helloWicket")));
-        add(new HeaderResponseContainer("jsBody", JS_FOOTER_CONTAINER_NAME));
     }
 
     @Override
     public void renderHead(IHeaderResponse response) {
-        //response.render(JavaScriptHeaderItem.forReference(ResourceBundleReference));
-        new ResourceBundleReference();
+        response.render(CSS_BOOTSTRAP);
+        response.render(CSS_BOOTSTRAP_THEME);
+        response.render(JS_BOOTSTRAP);
     }
     
     
