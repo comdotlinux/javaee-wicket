@@ -19,7 +19,8 @@ package com.linux;
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 import com.linux.home.HomePage;
-import org.apache.wicket.Application;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.filter.JavaScriptFilteredIntoFooterHeaderResponse;
 import org.apache.wicket.request.Url;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
@@ -32,6 +33,15 @@ import org.apache.wicket.request.resource.UrlResourceReference;
  */
 public class WicketApplication extends WebApplication{
 
+    /** The Bucket / container name {@value #JS_FOOTER_CONTAINER_NAME} for rendering Javascript in the body of page.*/
+    public static final String JS_FOOTER_CONTAINER_NAME = "footer-container";
+
+    /** Resource bundle with name {@value #BOOTSTRAP_JS_BUNDLE} */
+    public static final String BOOTSTRAP_JS_BUNDLE = "bootstrapJs";
+
+    /** Resource bundle with name {@value #BOOTSTRAP_CSS_BUNDLE} */
+    public static final String BOOTSTRAP_CSS_BUNDLE = "bootstrapCss";
+    
     @Override
     public Class<? extends Page> getHomePage() {
         return HomePage.class;
@@ -53,11 +63,14 @@ public class WicketApplication extends WebApplication{
         JavaScriptResourceReference bootstrapJsResourceReference = new JavaScriptResourceReference(jsBootstrapKey);
 
         
-        getResourceBundles().addCssBundle(WicketApplication.class,"bootstrapCss", bootstrapCssResourceReference, bootstrapThemeCssResourceReference);
-        getResourceBundles().addJavaScriptBundle(WicketApplication.class,"bootstrapJs", bootstrapJsResourceReference);
+        getResourceBundles().addCssBundle(WicketApplication.class, BOOTSTRAP_CSS_BUNDLE, bootstrapCssResourceReference, bootstrapThemeCssResourceReference);
+        getResourceBundles().addJavaScriptBundle(WicketApplication.class, BOOTSTRAP_JS_BUNDLE, bootstrapJsResourceReference);
+        
+        setHeaderResponseDecorator(this::decorate);
     }
-
     
-    
+    private IHeaderResponse decorate(IHeaderResponse response) {
+        return new JavaScriptFilteredIntoFooterHeaderResponse(response, JS_FOOTER_CONTAINER_NAME);
+    }
     
 }
