@@ -30,7 +30,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
-import org.apache.wicket.util.lang.Args;
 import static org.apache.wicket.util.lang.Args.notNull;
 
 /**
@@ -61,7 +60,14 @@ public class HomePage extends WebPage {
         Tab contact = new Tab(new ResourceModel("contactTabTitle"), contactTabVisible);
         tabs.add(contact);
         
-        add(new AjaxTabbedPanel<>("tabPanel", tabs));
+        add(new AjaxTabbedPanel<Tab>("tabPanel", tabs){
+            @Override
+            protected String getSelectedTabCssClass() {
+                return "active";
+            }
+            
+            get
+        });
         add(new Label("helloWicket", new ResourceModel("helloWicket")));
     }
 
@@ -72,7 +78,7 @@ public class HomePage extends WebPage {
         response.render(JS_BOOTSTRAP);
     }
     
-    class Tab implements ITab{
+    private class Tab implements ITab{
 
         private final IModel<String> title;
         private WebMarkupContainer panel;
